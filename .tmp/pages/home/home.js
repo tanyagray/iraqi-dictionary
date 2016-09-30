@@ -9,16 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { AngularFire } from 'angularfire2';
 export var HomePage = (function () {
-    function HomePage(navCtrl) {
+    function HomePage(navCtrl, firebase) {
         this.navCtrl = navCtrl;
+        console.log("hi");
+        this.words = firebase.database.list('/words');
+        console.log(this.words);
     }
     HomePage = __decorate([
         Component({
             selector: 'page-home',
             templateUrl: 'home.html'
         }), 
-        __metadata('design:paramtypes', [NavController])
+        __metadata('design:paramtypes', [NavController, AngularFire])
     ], HomePage);
     return HomePage;
 }());

@@ -11,10 +11,11 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 // Must export the config
 export const firebaseConfig = {
-  apiKey: '<your-key>',
-  authDomain: '<your-project-authdomain>',
-  databaseURL: '<your-database-URL>',
-  storageBucket: '<your-storage-bucket>'
+  apiKey: "AIzaSyC6NaqYyoDMF1YsPNJfxas61xuxBAyurDI",
+  authDomain: "learn-arabic-b456c.firebaseapp.com",
+  databaseURL: "https://learn-arabic-b456c.firebaseio.com",
+  storageBucket: "learn-arabic-b456c.appspot.com",
+  messagingSenderId: "383215148151"
 };
 
 @NgModule({

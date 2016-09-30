@@ -83197,15 +83197,18 @@ var __metadata$3 = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var HomePage = (function () {
-    function HomePage(navCtrl) {
+    function HomePage(navCtrl, firebase) {
         this.navCtrl = navCtrl;
+        console.log("hi");
+        this.words = firebase.database.list('/words');
+        console.log(this.words);
     }
     HomePage = __decorate$104([
         Component({
             selector: 'page-home',
-             template: '<ion-header>\n  <ion-navbar>\n    <ion-title>Home</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h2>Welcome to Ionic!</h2>\n  <p>\n    This starter project comes with simple tabs-based layout for apps\n    that are going to primarily use a Tabbed UI.\n  </p>\n  <p>\n    Take a look at the <code>src/pages/</code> directory to add or change tabs,\n    update any existing page or create new pages.\n  </p>\n</ion-content>\n'
+             template: '<ion-header>\n  <ion-navbar>\n    <ion-title>Home</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    \n    <ion-item *ngFor="let word of words | async">\n      <span item-left>\n        {{ word.en_form_1 }}\n      </span>\n      \n      <span item-right>\n        {{ word.iq_form_1 }}\n        </span>\n    </ion-item>\n    \n  </ion-list>\n</ion-content>\n'
         }), 
-        __metadata$3('design:paramtypes', [NavController])
+        __metadata$3('design:paramtypes', [NavController, AngularFire])
     ], HomePage);
     return HomePage;
 }());
@@ -83320,10 +83323,11 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 // Must export the config
 var firebaseConfig = {
-    apiKey: '<your-key>',
-    authDomain: '<your-project-authdomain>',
-    databaseURL: '<your-database-URL>',
-    storageBucket: '<your-storage-bucket>'
+    apiKey: "AIzaSyC6NaqYyoDMF1YsPNJfxas61xuxBAyurDI",
+    authDomain: "learn-arabic-b456c.firebaseapp.com",
+    databaseURL: "https://learn-arabic-b456c.firebaseio.com",
+    storageBucket: "learn-arabic-b456c.appspot.com",
+    messagingSenderId: "383215148151"
 };
 var AppModule = (function () {
     function AppModule() {

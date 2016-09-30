@@ -3,6 +3,7 @@ export declare const firebaseConfig: {
     authDomain: string;
     databaseURL: string;
     storageBucket: string;
+    messagingSenderId: string;
 };
 export declare class AppModule {
 }
