@@ -83187,6 +83187,106 @@ setTimeout(function () {
     }
 }, DEVICE_READY_TIMEOUT);
 
+var __extends$161 = (commonjsGlobal && commonjsGlobal.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1$8 = Subscriber_1$2;
+/**
+ * Filter items emitted by the source Observable by only emitting those that
+ * satisfy a specified predicate.
+ *
+ * <span class="informal">Like
+ * [Array.prototype.filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter),
+ * it only emits a value from the source if it passes a criterion function.</span>
+ *
+ * <img src="./img/filter.png" width="100%">
+ *
+ * Similar to the well-known `Array.prototype.filter` method, this operator
+ * takes values from the source Observable, passes them through a `predicate`
+ * function and only emits those values that yielded `true`.
+ *
+ * @example <caption>Emit only click events whose target was a DIV element</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var clicksOnDivs = clicks.filter(ev => ev.target.tagName === 'DIV');
+ * clicksOnDivs.subscribe(x => console.log(x));
+ *
+ * @see {@link distinct}
+ * @see {@link distinctKey}
+ * @see {@link distinctUntilChanged}
+ * @see {@link distinctUntilKeyChanged}
+ * @see {@link ignoreElements}
+ * @see {@link partition}
+ * @see {@link skip}
+ *
+ * @param {function(value: T, index: number): boolean} predicate A function that
+ * evaluates each value emitted by the source Observable. If it returns `true`,
+ * the value is emitted, if `false` the value is not passed to the output
+ * Observable. The `index` parameter is the number `i` for the i-th source
+ * emission that has happened since the subscription, starting from the number
+ * `0`.
+ * @param {any} [thisArg] An optional argument to determine the value of `this`
+ * in the `predicate` function.
+ * @return {Observable} An Observable of values from the source that were
+ * allowed by the `predicate` function.
+ * @method filter
+ * @owner Observable
+ */
+function filter$2(predicate, thisArg) {
+    return this.lift(new FilterOperator(predicate, thisArg));
+}
+var filter_2 = filter$2;
+var FilterOperator = (function () {
+    function FilterOperator(predicate, thisArg) {
+        this.predicate = predicate;
+        this.thisArg = thisArg;
+    }
+    FilterOperator.prototype.call = function (subscriber, source) {
+        return source._subscribe(new FilterSubscriber(subscriber, this.predicate, this.thisArg));
+    };
+    return FilterOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var FilterSubscriber = (function (_super) {
+    __extends$161(FilterSubscriber, _super);
+    function FilterSubscriber(destination, predicate, thisArg) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.thisArg = thisArg;
+        this.count = 0;
+        this.predicate = predicate;
+    }
+    // the try catch block below is left specifically for
+    // optimization and perf reasons. a tryCatcher is not necessary here.
+    FilterSubscriber.prototype._next = function (value) {
+        var result;
+        try {
+            result = this.predicate.call(this.thisArg, value, this.count++);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        if (result) {
+            this.destination.next(value);
+        }
+    };
+    return FilterSubscriber;
+}(Subscriber_1$8.Subscriber));
+
+var filter_1$1 = {
+	filter: filter_2
+};
+
+var Observable_1$9 = Observable_1$1;
+var filter_1 = filter_1$1;
+Observable_1$9.Observable.prototype.filter = filter_1.filter;
+
 var __decorate$104 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -83199,14 +83299,35 @@ var __metadata$3 = (undefined && undefined.__metadata) || function (k, v) {
 var HomePage = (function () {
     function HomePage(navCtrl, firebase) {
         this.navCtrl = navCtrl;
-        console.log("hi");
-        this.words = firebase.database.list('/words');
-        console.log(this.words);
+        this.firebase = firebase;
+        this.searchValue = new Subject_2();
+        var queryTerms = {
+            limitToFirst: 100,
+        };
+        this.words = firebase.database.list('/words', { query: queryTerms })
+            .filter(this.searchFilter, this);
+        // todo: map to classes after filtering
     }
+    // 1. create observable, with filter
+    // 2. when search subject updates, restart observable
+    HomePage.prototype.search = function (event) {
+        searchString: string = event.target.value.trim();
+        console.log(searchString);
+        // TODO update search subject
+        // run observable again
+        //this.words.next();
+    };
+    HomePage.prototype.searchFilter = function (value, index) {
+        value = value.filter(item, function (index) {
+            return keep;
+        }, boolean = index > 1);
+        return keep;
+        return value;
+    };
     HomePage = __decorate$104([
         Component({
             selector: 'page-home',
-             template: '<ion-header>\n  <ion-navbar>\n    <ion-title>Home</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    \n    <ion-item *ngFor="let word of words | async">\n      <span item-left>\n        {{ word.en_form_1 }}\n      </span>\n      \n      <span item-right>\n        {{ word.iq_form_1 }}\n        </span>\n    </ion-item>\n    \n  </ion-list>\n</ion-content>\n'
+             template: '<ion-header>\n    <ion-navbar>\n\n        <ion-title>\n            Dictionary\n        </ion-title>\n\n        <ion-buttons end>\n            <button [navPush]="wordEditPage">\n            <ion-icon name="add"></ion-icon>\n            </button>\n        </ion-buttons>\n\n        <!--button clear (click)="refresh()">Refresh</button-->\n\n    </ion-navbar>\n</ion-header>\n\n<ion-content>\n  \n  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search($event)"></ion-searchbar>\n  \n  \n  <ion-list>\n    \n    <ion-item-sliding>\n    \n      <ion-item *ngFor="let word of words | async">\n\n        <span class="english">{{ word.en_form_1 }}</span>\n        <span item-right class="arabic">{{ word.iq_form_1 }}</span>\n      \n      </ion-item>\n      \n    </ion-item-sliding>\n    \n  </ion-list>\n</ion-content>\n'
         }), 
         __metadata$3('design:paramtypes', [NavController, AngularFire])
     ], HomePage);

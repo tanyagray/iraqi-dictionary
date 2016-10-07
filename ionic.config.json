@@ -2,5 +2,8 @@
   "name": "iraqi-dictionary",
   "app_id": "",
   "v2": true,
-  "typescript": true
+  "typescript": true,
+  "watchPatterns": [
+    "!www/**/*"
+  ]
 }
