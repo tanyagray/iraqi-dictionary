@@ -6,3 +6,6 @@ node_modules/*
 
 # exclude the site build
 www/*
+
+# exclude ionic-generated tsconfig temp file
+tsconfig.tmp.json
