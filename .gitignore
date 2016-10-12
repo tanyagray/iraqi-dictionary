@@ -1,0 +1,8 @@
+# exclude ionic temp folder
+.tmp/*
+
+# exclude npm libs
+node_modules/*
+
+# exclude the site build
+www/*
