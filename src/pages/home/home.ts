@@ -6,9 +6,8 @@ import { Observable } from 'rxjs/Observable'
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { AngularFire } from 'angularfire2';
-
 import { Word } from '../../model/word.model';
+import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
   selector: 'page-home',
@@ -17,45 +16,50 @@ import { Word } from '../../model/word.model';
 export class HomePage {
     
     private searchValue: string = '';
-    private allWords: Observable<Word[]>;
-    private visibleWords: Observable<Word[]>;
-  
-    constructor(public navCtrl: NavController, private firebase: AngularFire) {
-        this.allWords = firebase.database.list('/words');
-        this.visibleWords = this.allWords;
+    private words: Observable<Word[]>;
+    
+    /*
+    Dictionary Page
+    */
+    constructor(public navCtrl: NavController, private service: FirebaseService) {
+        this.words = service.getWords();
+        this.search();
     }
 
-    showWordDetail(event: any) {
+    /*
+    Navigate to the full word detail page,
+    passing along the selected Word.
+    */
+    private showWordDetail(event: any) {
         console.log(event);
     }
-  
-    search(event: any) {
-        this.searchValue = event.target.value.trim();
+    
+
+    private search(event: any = null) {
+        this.searchValue = this.searchValue.trim();
         
-        this.visibleWords = this.allWords
+        this.words = this.words
             .map( words => {
-                return words.filter(this.searchFilter, this);
+                return words.map(this.searchMap, this);
             });
     }
 	
-	searchFilter( word: any, index: number ) {
+	private searchMap( word: any, index: number ) {
         
-        if( this.searchValue.length == 0 ) return true;
+        let visible: boolean = true;
 
-		let keep: boolean = this.enMatch(word, this.searchValue) || this.iqMatch(word, this.searchValue);
-		return keep;
+        if( this.searchValue.length > 0 ) {
+
+		    visible = word.contains
+        }
+
+        word.visible = word.contains(this.searchValue);
+        
+        return word;
 
 	}
 	
-	enMatch( word: Word, searchString: string ) {
-        let found: boolean = ( word.en.indexOf(searchString) != -1 );
-        return found;
-	}
 	
-	iqMatch( word: Word, searchString: string ) {
-        let found: boolean = ( word.iq.indexOf(searchString) != -1 );
-        return found;
-	}
 	
 
 }
