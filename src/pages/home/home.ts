@@ -1,86 +1,61 @@
 import 'rxjs/add/operator/filter';
-import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/map';
+
 import { Observable } from 'rxjs/Observable'
 
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire } from 'angularfire2';
+
+import { Word } from '../../model/word.model';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  
-  
-  
-  words: Observable<any>;
-  searchValue: Subject<String>;
-  
-  
-  
-  constructor(public navCtrl: NavController, private firebase: AngularFire) {
-      
-      this.searchValue = new Subject();
-      
-      let queryTerms = {
-        limitToFirst: 100,
-      }
-
-      
-      this.words = firebase.database.list('/words', { query: queryTerms })
-        .filter( this.searchFilter, this );
-        
-      // todo: map to classes after filtering
-  }
-  
-  
-  // 1. create observable, with filter
-  // 2. when search subject updates, restart observable
-  
-  
-  
-  search(event: any) {
     
-		searchString: str = event.target.value.trim();
-		console.log(searchString);
-		
-		 // TODO update search subject
-		 
-		 
-		 // run observable again
-		//this.words.next();
+    private searchValue: string = '';
+    private allWords: Observable<Word[]>;
+    private visibleWords: Observable<Word[]>;
+  
+    constructor(public navCtrl: NavController, private firebase: AngularFire) {
+        this.allWords = firebase.database.list('/words');
+        this.visibleWords = this.allWords;
+    }
+
+    showWordDetail(event: any) {
+        console.log(event);
+    }
+  
+    search(event: any) {
+        this.searchValue = event.target.value.trim();
+        
+        this.visibleWords = this.allWords
+            .map( words => {
+                return words.filter(this.searchFilter, this);
+            });
+    }
+	
+	searchFilter( word: any, index: number ) {
+        
+        if( this.searchValue.length == 0 ) return true;
+
+		let keep: boolean = this.enMatch(word, this.searchValue) || this.iqMatch(word, this.searchValue);
+		return keep;
 
 	}
 	
-	
-	searchFilter( value: any[], index: number ) {
-		
-		value = value.filter( item => 
-			let keep: boolean = index > 1;
-			return keep;
-		)
-		
-		return value;
+	enMatch( word: Word, searchString: string ) {
+        let found: boolean = ( word.en.indexOf(searchString) != -1 );
+        return found;
 	}
 	
-	/*
-	filterFunc( word, index, parentObservable) {
-	  return this.enMatch(word, searchString) || this.iqMatch(word, searchString) ;
+	iqMatch( word: Word, searchString: string ) {
+        let found: boolean = ( word.iq.indexOf(searchString) != -1 );
+        return found;
 	}
 	
-	enMatch( word:string, searchString:string ) {
-	  console.log("en: ", word);
-	  found = ( word['en_form_1'].indexOf(searchString) != -1 );
-	  return found;
-	}
-	
-	iqMatch( word:string, searchString:string ) {
-	  found = ( word.['iq_form_1'].indexOf(searchString) != -1 );
-	  return found;
-	}
-	*/
- 
 
 }

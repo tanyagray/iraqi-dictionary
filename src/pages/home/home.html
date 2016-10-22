@@ -5,32 +5,33 @@
             Dictionary
         </ion-title>
 
-        <ion-buttons end>
+        <!--ion-buttons end>
             <button [navPush]="wordEditPage">
             <ion-icon name="add"></ion-icon>
             </button>
-        </ion-buttons>
-
-        <!--button clear (click)="refresh()">Refresh</button-->
+        </ion-buttons-->
 
     </ion-navbar>
 </ion-header>
 
 <ion-content>
   
-  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search($event)"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchValue" (ionInput)="search($event)"></ion-searchbar>
   
   
   <ion-list>
     
     <ion-item-sliding>
     
-      <ion-item *ngFor="let word of words | async">
+      <button ion-item detail-none 
+        *ngFor="let word of visibleWords | async" 
+        [navPush]="wordDetailPage"
+        [navParams]="{word: word}">
 
-        <span class="english">{{ word.en_form_1 }}</span>
-        <span item-right class="arabic">{{ word.iq_form_1 }}</span>
+        <span class="english">{{ word.en }}</span>
+        <span item-right class="arabic">{{ word.iq }}</span>
       
-      </ion-item>
+      </button>
       
     </ion-item-sliding>
     
