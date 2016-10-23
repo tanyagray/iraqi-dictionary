@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 
 import { AngularFireModule } from 'angularfire2';
+import { AuthProviders, AuthMethods } from 'angularfire2';
+
 
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
@@ -9,6 +11,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { DictionaryPage } from '../pages/dictionary/dictionary';
 import { TabsPage } from '../pages/tabs/tabs';
 import { FirebaseService } from '../services/firebase.service';
+import { SignInPage } from '../pages/sign-in/sign-in';
 
 // Must export the config
 export const firebaseConfig = {
@@ -19,9 +22,15 @@ export const firebaseConfig = {
   messagingSenderId: "383215148151"
 };
 
+export const firebaseAuthConfig = {
+  provider: AuthProviders.Password,
+  method: AuthMethods.Password
+}
+
 @NgModule({
   declarations: [
     MyApp,
+    SignInPage,
     AboutPage,
     ContactPage,
     DictionaryPage,
@@ -29,13 +38,14 @@ export const firebaseConfig = {
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig)
   ],
   bootstrap: [
     IonicApp
   ],
   entryComponents: [
     MyApp,
+    SignInPage,
     AboutPage,
     ContactPage,
     DictionaryPage,
