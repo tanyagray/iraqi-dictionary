@@ -1,3 +1,19 @@
 sign-in-page {
+    background-image: url(../assets/background/splash.png);
+    background-size: cover;
+    background-position: center;
 
+    ion-content, .content-ios {
+        background: transparent;
+    }
+
+    ion-card, .card-ios {
+        margin-top: 25%;
+        animation: fadein 2s;
+    }
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

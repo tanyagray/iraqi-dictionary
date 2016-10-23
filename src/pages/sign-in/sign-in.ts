@@ -34,7 +34,7 @@ export class SignInPage {
     */
     private redirectIfAuthenticated(){
         if( this.auth ) {
-            this.navCtrl.setPages([TabsPage]);
+            this.navCtrl.setPages([TabsPage], { animate: true, animation: 'md-transition' });
         } else {
             this.signInRequired = true;
         }
