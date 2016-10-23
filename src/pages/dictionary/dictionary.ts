@@ -10,10 +10,10 @@ import { Word } from '../../model/word.model';
 import { FirebaseService } from '../../services/firebase.service';
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-dictionary',
+  templateUrl: 'dictionary.html'
 })
-export class HomePage {
+export class DictionaryPage {
     
     private searchValue: string = '';
     private words: Observable<Word[]>;
@@ -34,8 +34,11 @@ export class HomePage {
         console.log(event);
     }
     
-
-    private search(event: any = null) {
+    /*
+    Applies a map function to the word list where
+    each is checked for a search string match.
+    */
+    private search() {
         this.searchValue = this.searchValue.trim();
         
         this.words = this.words
@@ -44,19 +47,13 @@ export class HomePage {
             });
     }
 	
-	private searchMap( word: any, index: number ) {
-        
-        let visible: boolean = true;
-
-        if( this.searchValue.length > 0 ) {
-
-		    visible = word.contains
-        }
-
+    /*
+    Sets the "visible" property of each word, based on the
+    search string currently in the search input.
+    */
+	private searchMap( word: Word, index: number ) {
         word.visible = word.contains(this.searchValue);
-        
         return word;
-
 	}
 	
 	

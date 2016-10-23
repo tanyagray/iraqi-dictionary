@@ -13,8 +13,8 @@ export class Word {
     // local only
     visible: boolean;
 
-    constructor(){
-        // pass
+    constructor(rawData: any){
+        Object.assign(this, rawData);
     }
 
     /*

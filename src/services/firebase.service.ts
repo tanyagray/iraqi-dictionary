@@ -25,6 +25,13 @@ export class FirebaseService {
     */
     getWords() {
         let words: Observable<Word[]> = this.firebase.database.list('/words');
+
+        words = words.map( words => {
+            return words.map( word => {
+                return new Word(word);
+            })
+        });
+        
         return words;
     }
 

@@ -6,7 +6,7 @@ import { AngularFireModule } from 'angularfire2';
 import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
+import { DictionaryPage } from '../pages/dictionary/dictionary';
 import { TabsPage } from '../pages/tabs/tabs';
 import { FirebaseService } from '../services/firebase.service';
 
@@ -24,19 +24,21 @@ export const firebaseConfig = {
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
+    DictionaryPage,
     TabsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig)
   ],
-  bootstrap: [IonicApp],
+  bootstrap: [
+    IonicApp
+  ],
   entryComponents: [
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
+    DictionaryPage,
     TabsPage
   ],
   providers: [
