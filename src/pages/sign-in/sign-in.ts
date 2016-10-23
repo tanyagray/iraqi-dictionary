@@ -11,6 +11,8 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class SignInPage {
 
+    private signInRequired: boolean;
+
     private email:string;
     private password:string;
 
@@ -18,12 +20,13 @@ export class SignInPage {
 
     constructor(public navCtrl: NavController, private service: FirebaseService) { 
 
+        this.signInRequired = false;
+
         this.service.authState.subscribe( authEvent => {
             this.auth = authEvent;
             this.redirectIfAuthenticated();
         });
 
-        this.service.tryRefreshAuthentication();
     }
 
     /*
@@ -32,6 +35,8 @@ export class SignInPage {
     private redirectIfAuthenticated(){
         if( this.auth ) {
             this.navCtrl.setPages([TabsPage]);
+        } else {
+            this.signInRequired = true;
         }
     }
 
@@ -39,8 +44,6 @@ export class SignInPage {
     Attempts to sign in the user with the details provided
     */
     public signIn() {
-        console.log("sign in ", this.email, this.password);
-
         this.service.authenticate( this.email, this.password );
         
     }

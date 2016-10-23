@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 import { FirebaseService } from '../../services/firebase.service';
+import { SignInPage } from '../sign-in/sign-in';
 
 @Component({
   selector: 'page-contact',
@@ -15,6 +16,7 @@ export class ContactPage {
 
   private signOut() {
     this.service.unauthenticate();
+    this.navCtrl.setPages([SignInPage]);
   }
 
 }

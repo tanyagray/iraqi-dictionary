@@ -24,11 +24,7 @@ export class FirebaseService {
         this.firebase.auth.subscribe( auth => {
             this.authState.next(auth);
         });
-        
-    }
 
-    public tryRefreshAuthentication(){
-        this.firebase.auth.login();
     }
 
     /*
