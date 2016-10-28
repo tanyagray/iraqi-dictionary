@@ -10,5 +10,20 @@
 
 <ion-content>
   
-  Test
+    <form [formGroup]="word" (ngSubmit)="submitForm()">
+
+      <ion-item>
+        <ion-label>Language</ion-label>
+        <ion-input type="text" formControlName="language"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Type</ion-label>
+        <ion-textarea formControlName="type"></ion-textarea>
+      </ion-item>
+
+      <button ion-button type="submit" block [disabled]="!todo.valid">Save Word</button>
+
+    </form>
+
 </ion-content>

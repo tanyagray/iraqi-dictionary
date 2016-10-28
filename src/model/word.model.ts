@@ -1,14 +1,16 @@
 export class Word {
     
-    // remote (Firebase)
-    type: string;
-    subtype: string;
-    
-    en: string;
-    iq: string;
-    bz: string;
+    // all words
+    language: string; // locale
+    type: string; // noun, verb etc
+    name: string; // actual word text eg hello
+    base_word: string; // id
+    translations: string[]; // list of ids
 
-    frequency_rank: number;
+    // arabic only
+    subtype: string;
+    with_diacritics: string;
+    arabizi: string;
 
     // local only
     visible: boolean;
