@@ -8,6 +8,7 @@ import { NavController } from 'ionic-angular';
 
 import { Word } from '../../model/word.model';
 import { FirebaseService } from '../../services/firebase.service';
+import { AddWordPage } from '../add-word/add-word';
 
 @Component({
   selector: 'page-dictionary',
@@ -55,6 +56,11 @@ export class DictionaryPage {
         word.visible = word.contains(this.searchValue);
         return word;
 	}
+
+
+    private openPage( page:any ) {
+        this.navCtrl.push(AddWordPage)
+    }
 	
 	
 	

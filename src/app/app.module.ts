@@ -12,6 +12,7 @@ import { DictionaryPage } from '../pages/dictionary/dictionary';
 import { TabsPage } from '../pages/tabs/tabs';
 import { FirebaseService } from '../services/firebase.service';
 import { SignInPage } from '../pages/sign-in/sign-in';
+import { AddWordPage } from '../pages/add-word/add-word';
 
 // Must export the config
 export const firebaseConfig = {
@@ -34,7 +35,8 @@ export const firebaseAuthConfig = {
     AboutPage,
     ContactPage,
     DictionaryPage,
-    TabsPage
+    TabsPage,
+    AddWordPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -49,7 +51,8 @@ export const firebaseAuthConfig = {
     AboutPage,
     ContactPage,
     DictionaryPage,
-    TabsPage
+    TabsPage,
+    AddWordPage
   ],
   providers: [
     FirebaseService
