@@ -37,7 +37,7 @@ export class Word {
     Returns true if a string match is found in the English form
     */
     private enMatch(searchString: string) {
-        let found: boolean = ( this.en.indexOf(searchString) != -1 );
+        let found: boolean = ( this.name.indexOf(searchString) != -1 );
         return found;
 	}
 	
@@ -45,7 +45,7 @@ export class Word {
     Returns true if a string match is found in the Iraqi Arabic form
     */
 	private iqMatch(searchString: string) {
-        let found: boolean = ( this.iq.indexOf(searchString) != -1 );
+        let found: boolean = ( this.name.indexOf(searchString) != -1 );
         return found;
 	}
  

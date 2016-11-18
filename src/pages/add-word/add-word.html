@@ -10,19 +10,96 @@
 
 <ion-content>
   
-    <form [formGroup]="word" (ngSubmit)="submitForm()">
+    <form [(formGroup)]="wordForm" (ngSubmit)="submitForm()">
 
-      <ion-item>
-        <ion-label>Language</ion-label>
-        <ion-input type="text" formControlName="language"></ion-input>
-      </ion-item>
+        <!-- language picker -->
+        <ion-item padding class="language-chooser no-background">
+            <ion-segment formControlName="language">
+                <ion-segment-button value="en-US">
+                    English
+                </ion-segment-button>
+                <ion-segment-button value="ar-IQ">
+                    Iraqi
+                </ion-segment-button>
+            </ion-segment>
+        </ion-item>
 
-      <ion-item>
-        <ion-label>Type</ion-label>
-        <ion-textarea formControlName="type"></ion-textarea>
-      </ion-item>
 
-      <button ion-button type="submit" block [disabled]="!todo.valid">Save Word</button>
+        <!-- word -->
+
+
+            <ion-list>
+
+                <ion-list-header>
+                    Word
+                </ion-list-header>
+
+                <ion-item *ngIf="wordForm.controls.language.value == 'en-US'">
+                    <ion-label>English</ion-label>
+                    <ion-textarea formControlName="name" placeholder="eg. hello"></ion-textarea>
+                </ion-item>
+
+                <ion-item *ngIf="wordForm.controls.language.value == 'ar-IQ'">
+                    <ion-label>Iraqi</ion-label>
+                    <ion-textarea formControlName="with_diacritics" placeholder="اهلا"></ion-textarea>
+                </ion-item>
+
+                <ion-item *ngIf="wordForm.controls.language.value == 'ar-IQ'">
+                    <ion-label>Arabizi</ion-label>
+                    <ion-textarea formControlName="arabizi" placeholder="ahlan"></ion-textarea>
+                </ion-item>
+                
+            </ion-list>
+
+
+
+        <!-- type of word -->
+
+            
+            <ion-list>
+
+                <ion-list-header>
+                    Word Type
+                </ion-list-header>
+
+                <ion-item>
+                    <ion-label>Select type of word...</ion-label>
+                    <ion-select formControlName="type">
+                        <ion-option value="verb" default>Verb</ion-option>
+                        <ion-option value="noun">Noun</ion-option>
+                        <ion-option value="unknown">Unknown</ion-option>
+                    </ion-select>
+                </ion-item>
+            
+            </ion-list>
+
+
+        <!-- translations -->
+
+
+            <ion-list>
+
+                <ion-list-header>
+                    Translations
+                </ion-list-header>
+
+                <!-- translations programmatically added here -->
+
+                
+                
+            </ion-list>
+
+            <button ion-button clear>
+                Add a translation...
+            </button>
+
+            
+
+
+
+      
+
+      <button ion-button full type="submit" [disabled]="!wordForm.valid">Save Word</button>
 
     </form>
 

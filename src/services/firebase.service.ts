@@ -12,10 +12,10 @@ export class FirebaseService {
     
     public authState:Subject<any>;
 
-    private authErrorCodes = {
+    /*private authErrorCodes = {
         "auth/invalid-email": "Please enter a valid email address.",
         "auth/user-not-found": "No user found with that email address."
-    }
+    }*/
 
     constructor(private firebase: AngularFire) {
 

@@ -3,29 +3,34 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Word } from '../../model/word.model';
 
 @Component({
-    selector: 'page-add-word',
+    selector: 'add-word-page',
     templateUrl: 'add-word.html'
 })
 export class AddWordPage {
 
-    word: FormGroup;
+    wordForm: FormGroup;
 
     constructor(private formBuilder:FormBuilder) { 
-           this.word = this.formBuilder.group({
-            language: '',
+        this.wordForm = this.formBuilder.group({
+            language: 'en-US',
             type: '',
             name: '',
             base_word: '',
             with_diacritics: '',
-            arabizi: ''
-            // TODO: translations
+            arabizi: '',
+            translation: ''
         });  
+
+        this.wordForm.valueChanges.subscribe(data => {
+        console.log('form changes', data);
+        console.log(this.wordForm.controls)
+        });
 
     }
 
 
     private submitForm() {
-        console.log(this.word)
+        console.log(this.wordForm)
     }
 
 }

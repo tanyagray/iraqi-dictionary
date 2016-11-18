@@ -1,0 +1,23 @@
+add-word-page {
+
+    .scroll-content {
+        background: #f4f4f4;
+    }
+
+    ion-item.no-background {
+        background:transparent;
+    }
+
+    ion-label {
+        color: #7f7f7f;
+    }
+
+    .item-input .label-ios,
+    .item-select .label-ios {
+        color: #343434;
+    }
+
+    .language-chooser.item-ios.item-block .item-inner {
+        border: none;
+    }
+}
